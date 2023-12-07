@@ -91,32 +91,34 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
 
                     globalVariables.getController().getFlags().text = (--flags).ToString();
                     setSprite(_flaggedSprite);
+
+                    if (flags == 0)
+                    {
+                        bool completado = true;
+
+                        for (int row = 0; row < globalVariables.getTileGrid().Count; ++row)
+                        {
+                            for (int column = 0; column < globalVariables.getTileGrid().Count; ++column)
+                            {
+                                if (globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB && !globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getIsFlagged())
+                                {
+                                    completado = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (completado)
+                        {
+                            GameOver(1);
+                        }
+
+                    }
                 }
                 else                //Hemos quitado bandera
                 {
                     setSprite(_normalSprite);
                     globalVariables.getController().getFlags().text = (++flags).ToString();
-                }
-            }
-            else                //Podemos haber ganado
-            {
-                bool completado = true;
-
-                for (int row = 0; row < globalVariables.getTileGrid().Count; ++row)
-                {
-                    for (int column = 0; column < globalVariables.getTileGrid().Count; ++column)
-                    {
-                        if (globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB && !globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getIsFlagged())
-                        {
-                            completado = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (completado)
-                {
-                    GameOver(1);
                 }
             }
         }

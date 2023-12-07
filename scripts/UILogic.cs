@@ -59,7 +59,7 @@ public class UILogic : MonoBehaviour
         }
         else
         {
-            Invoke("showWinUI", 2);
+            Invoke("showWinUI", 0.5f);
         }
     }
 
