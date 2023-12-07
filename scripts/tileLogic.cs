@@ -139,7 +139,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
         }
         else if (tile.GetComponent<tileLogic>().getRow() == globalVariables.getNumOfRows() - 1 && tile.GetComponent<tileLogic>().getColumn() == 0)    //Esquina abajo izquierda
         {
-            tile.GetComponent<tileLogic>().setBombsSurroundTile(3);
+            tile.GetComponent<tileLogic>().setBombsSurroundTile(1);
         }
         else if (tile.GetComponent<tileLogic>().getRow() == globalVariables.getNumOfRows() - 1 && (tile.GetComponent<tileLogic>().getColumn() > 0 && tile.GetComponent<tileLogic>().getColumn() < globalVariables.getNumOfRows() - 1))       //Fila de abajo
         {
@@ -147,7 +147,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
         }
         else if (tile.GetComponent<tileLogic>().getRow() == globalVariables.getNumOfRows() - 1 && tile.GetComponent<tileLogic>().getColumn() == globalVariables.getNumOfRows() - 1)       //Esquina abajo derecha
         {
-            tile.GetComponent<tileLogic>().setBombsSurroundTile(1);
+            tile.GetComponent<tileLogic>().setBombsSurroundTile(3);
         }
     }
 
