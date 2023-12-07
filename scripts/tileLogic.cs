@@ -84,7 +84,6 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
             if (_isFlagged)
             {
                 setSprite(_flaggedSprite);
-                Debug.Log(globalVariables.getController().getFlags().text);
                 int flags;
                 int.TryParse(globalVariables.getController().getFlags().text, out flags);
                 globalVariables.getController().getFlags().text = (--flags).ToString();
@@ -159,6 +158,13 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
             {
                 tile.GetComponent<Button>().interactable = false;
                 calculateBombsAroundTile(tile);
+                if (tile.GetComponent<tileLogic>().getIsFlagged())
+                {
+                    tile.GetComponent<tileLogic>().setIsFlagged(false);
+                    int flags;
+                    int.TryParse(globalVariables.getController().getFlags().text, out flags);
+                    globalVariables.getController().getFlags().text = (++flags).ToString();
+                }
                 tile.GetComponent<tileLogic>().setIsRevealed(true);
                 tile.GetComponent<tileLogic>().setSprite(_emptySprite);
                 if (tile.GetComponent<tileLogic>().getBombsSurroundTile() == 0)
@@ -347,6 +353,10 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
     {
         _typeOfTile = type;
     }
+    public void setIsFlagged(bool flag)
+    {
+        _isFlagged = flag;
+    }
 
     public void setRow(int row)
     {
@@ -365,6 +375,11 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
     public bool getIsRevealed()
     {
         return _isRevealed;
+    }
+
+    public bool getIsFlagged()
+    {
+        return _isFlagged;
     }
 
     public int getRow()
