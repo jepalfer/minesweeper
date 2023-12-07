@@ -11,6 +11,7 @@ public class menuLogic : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _hardText;
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _difficultyText;
+    private int _diffIndex = 0;
     private float _easyMult = 0.1f;
     private float _mediumMult = 0.2f;
     private float _hardMult = 0.35f;
@@ -20,9 +21,6 @@ public class menuLogic : MonoBehaviour
         globalVariables.setGameDifficulty(difficultyLevel.EASY);
         globalVariables.setRows(7);
         globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
-        _easyText.text = "FÁCIL\n" + getNumberOfBombs(_easyMult).ToString() + " BOMBAS";
-        _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
-        _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
     }
     public void playGame()
     {
@@ -43,6 +41,19 @@ public class menuLogic : MonoBehaviour
                 _easyText.text = "FÁCIL\n" + getNumberOfBombs(_easyMult).ToString() + " BOMBAS";
                 _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
                 _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
+
+                if (_diffIndex == 0)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
+                }
+                else if (_diffIndex == 1)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_mediumMult));
+                }
+                else
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
+                }
                 break;
 
             case 1:
@@ -51,6 +62,18 @@ public class menuLogic : MonoBehaviour
                 _easyText.text = "FÁCIL\n" + getNumberOfBombs(_easyMult).ToString() + " BOMBAS";
                 _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
                 _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
+                if (_diffIndex == 0)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
+                }
+                else if (_diffIndex == 1)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_mediumMult));
+                }
+                else
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
+                }
                 break;
 
             case 2:
@@ -59,6 +82,18 @@ public class menuLogic : MonoBehaviour
                 _easyText.text = "FÁCIL\n" + getNumberOfBombs(_easyMult).ToString() + " BOMBAS";
                 _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
                 _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
+                if (_diffIndex == 0)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
+                }
+                else if (_diffIndex == 1)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_mediumMult));
+                }
+                else
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
+                }
                 break;
         }
     }
@@ -73,18 +108,21 @@ public class menuLogic : MonoBehaviour
         switch (index)
         {
             case 0:
+                _diffIndex = 0;
                 globalVariables.setGameDifficulty(difficultyLevel.EASY);
                 globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
                 _difficultyText.text = "FÁCIL";
                 break;
 
             case 1:
+                _diffIndex = 1;
                 globalVariables.setGameDifficulty(difficultyLevel.MEDIUM);
                 globalVariables.setBombsQuantity(getNumberOfBombs(_mediumMult));
                 _difficultyText.text = "MEDIO";
                 break;
 
             case 2:
+                _diffIndex = 2;
                 globalVariables.setGameDifficulty(difficultyLevel.HARD);
                 globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
                 _difficultyText.text = "DIFÍCIL";
