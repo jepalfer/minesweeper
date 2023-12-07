@@ -198,7 +198,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
             {
                 for (int column = -1; column <= 1; column++)
                 {
-                    if (row != 0 && column != 0)
+                    if (row != 0 || column != 0)
                     {
                         if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                         {
@@ -217,7 +217,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = 0; column <= 1; column++)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -232,7 +232,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = -1; column <= 1; column++)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -247,7 +247,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = -1; column <= 0; column++)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -262,7 +262,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = 0; column <= 1; column++)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -277,7 +277,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = 0; column >= -1; column--)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -292,7 +292,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = 0; column <= 1; column++)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -307,7 +307,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = -1; column <= 1; column++)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -322,7 +322,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                     {
                         for (int column = -1; column <= 0; column++)
                         {
-                            if (row != 0 && column != 0)
+                            if (row != 0 || column != 0)
                             {
                                 if (globalVariables.getTileGrid()[_row + row][_column + column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
                                 {
@@ -382,6 +382,15 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
 
     public void GameOver()
     {
-        Debug.Log("perdiste jiji");
+        for (int row = 0; row < globalVariables.getNumOfRows(); ++row)
+        {
+            for (int column = 0; column < globalVariables.getNumOfRows(); ++column)
+            {
+                if (globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
+                {
+                    globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().setSprite(_bombSprite);
+                }
+            }
+        }
     }
 }
