@@ -74,28 +74,50 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                GameOver();
+                GameOver(0);
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right && !_isRevealed)
         {
-            _isFlagged = !_isFlagged;
-
-            if (_isFlagged)
+            int flags;
+            int.TryParse(globalVariables.getController().getFlags().text, out flags);
+            
+            if (flags > 0 || _isFlagged)      //Puedo poner bandera o quitar bandera (si estaba puesta)
             {
-                setSprite(_flaggedSprite);
-                int flags;
-                int.TryParse(globalVariables.getController().getFlags().text, out flags);
-                globalVariables.getController().getFlags().text = (--flags).ToString();
+                _isFlagged = !_isFlagged;
 
+                if (_isFlagged)     //Acabamos de poner una bandera
+                {
+
+                    globalVariables.getController().getFlags().text = (--flags).ToString();
+                    setSprite(_flaggedSprite);
+                }
+                else                //Hemos quitado bandera
+                {
+                    setSprite(_normalSprite);
+                    globalVariables.getController().getFlags().text = (++flags).ToString();
+                }
             }
-            else
+            else                //Podemos haber ganado
             {
-                setSprite(_normalSprite);
-                int flags;
-                int.TryParse(globalVariables.getController().getFlags().text, out flags);
-                globalVariables.getController().getFlags().text = (++flags).ToString();
+                bool completado = true;
 
+                for (int row = 0; row < globalVariables.getTileGrid().Count; ++row)
+                {
+                    for (int column = 0; column < globalVariables.getTileGrid().Count; ++column)
+                    {
+                        if (globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB && !globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getIsFlagged())
+                        {
+                            completado = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (completado)
+                {
+                    GameOver(1);
+                }
             }
         }
     }
@@ -395,17 +417,26 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
         return _typeOfTile;
     }
 
-    public void GameOver()
+    public void GameOver(int index)
     {
-        for (int row = 0; row < globalVariables.getNumOfRows(); ++row)
+        if (index == 0)
         {
-            for (int column = 0; column < globalVariables.getNumOfRows(); ++column)
+            for (int row = 0; row < globalVariables.getNumOfRows(); ++row)
             {
-                if (globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
+                for (int column = 0; column < globalVariables.getNumOfRows(); ++column)
                 {
-                    globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().setSprite(_bombSprite);
+                    globalVariables.getTileGrid()[row][column].GetComponent<Button>().interactable = false;
+                    if (globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().getTypeOfTile() == cellEnum.BOMB)
+                    {
+                        globalVariables.getTileGrid()[row][column].GetComponent<tileLogic>().setSprite(_bombSprite);
+                    }
                 }
             }
+            UILogic.getController().GetComponent<UILogic>().gameOver(index);
+        }
+        else
+        {
+            UILogic.getController().GetComponent<UILogic>().gameOver(index);
         }
     }
 }

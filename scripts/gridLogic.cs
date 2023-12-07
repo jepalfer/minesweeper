@@ -11,11 +11,6 @@ public class gridLogic : MonoBehaviour
 
     private void Awake()
     {
-        globalVariables.setRows(14);
-        globalVariables.setGameDifficulty(difficultyLevel.HARD);
-
-        globalVariables.setBombsQuantity(Mathf.RoundToInt((float)(0.2 * Mathf.Pow(globalVariables.getNumOfRows(), 2))));
-
         List<(int, int)> coordinates = new List<(int, int)>();
         List<(int, int)> coordinatesWithBomb = new List<(int, int)>();
 
