@@ -27,6 +27,7 @@ public class globalVariables : MonoBehaviour
         return _flags;
     }
 
+
     public static void setRows(int row)
     {
         _numOfRows = row;

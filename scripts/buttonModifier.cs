@@ -20,7 +20,7 @@ public class buttonModifier : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnDeselect(BaseEventData eventData)
     {
-        setColor(Color.white);
+        setColor(Color.black);
         _isSelected = false;
 
     }

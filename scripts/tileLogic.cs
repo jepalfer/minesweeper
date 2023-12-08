@@ -130,6 +130,38 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
 
         if (_bombsSurround != 0)
         {
+            if (_bombsSurround == 1)
+            {
+                _numberOfBombs.color = Color.cyan;
+            }
+            else if (_bombsSurround == 2)
+            {
+                _numberOfBombs.color = Color.blue;
+            }
+            else if (_bombsSurround == 3)
+            {
+                _numberOfBombs.color = Color.green;
+            }
+            else if (_bombsSurround == 4)
+            {
+                _numberOfBombs.color = Color.white;
+            }
+            else if (_bombsSurround == 5)
+            {
+                _numberOfBombs.color = Color.magenta;
+            }
+            else if (_bombsSurround == 6)
+            {
+                _numberOfBombs.color = Color.red;
+            }
+            else if (_bombsSurround == 7)
+            {
+                _numberOfBombs.color = Color.yellow;
+            }
+            else
+            {
+                _numberOfBombs.color = Color.black;
+            }
             _numberOfBombs.text = _bombsSurround.ToString();
         }
     }
@@ -193,19 +225,42 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                 tile.GetComponent<tileLogic>().setSprite(_emptySprite);
                 if (tile.GetComponent<tileLogic>().getBombsSurroundTile() == 0)
                 {
-                    if (tile.GetComponent<tileLogic>().getRow() - 1 > 0)
+                    // 7 8 9
+                    // 4 5 6
+                    // 1 2 3
+                    if (tile.GetComponent<tileLogic>().getRow() - 1 >= 0)
                     {
+                        if (tile.GetComponent<tileLogic>().getColumn() -1 >= 0)      // 7
+                        {
+                            revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow() - 1][tile.GetComponent<tileLogic>().getColumn() - 1]);
+                        }
+                        //8
                         revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow() - 1][tile.GetComponent<tileLogic>().getColumn()]);
+
+                        if (tile.GetComponent<tileLogic>().getColumn() + 1 < globalVariables.getNumOfRows())        //9
+                        {
+                            revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow() - 1][tile.GetComponent<tileLogic>().getColumn() + 1]);
+                        }
                     }
-                    if (tile.GetComponent<tileLogic>().getRow() + 1 < globalVariables.getNumOfRows())
+                    if (tile.GetComponent<tileLogic>().getRow() + 1 < globalVariables.getNumOfRows())       
                     {
+                        if (tile.GetComponent<tileLogic>().getColumn() - 1 >= 0)     //1
+                        {
+                            revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow() + 1][tile.GetComponent<tileLogic>().getColumn() - 1]);
+                        }
+                        //2
                         revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow() + 1][tile.GetComponent<tileLogic>().getColumn()]);
-                    }
-                    if (tile.GetComponent<tileLogic>().getColumn() - 1 > 0)
+
+                        if (tile.GetComponent<tileLogic>().getColumn() + 1 < globalVariables.getNumOfRows())    //3
+                        {
+                            revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow() + 1][tile.GetComponent<tileLogic>().getColumn() + 1]);
+                        }
+                    }   
+                    if (tile.GetComponent<tileLogic>().getColumn() - 1 >= 0)     //4
                     {
                         revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow()][tile.GetComponent<tileLogic>().getColumn() - 1]);
                     }
-                    if (tile.GetComponent<tileLogic>().getColumn() + 1 < globalVariables.getNumOfRows())
+                    if (tile.GetComponent<tileLogic>().getColumn() + 1 < globalVariables.getNumOfRows())        //6
                     {
                         revealAroundTile(globalVariables.getTileGrid()[tile.GetComponent<tileLogic>().getRow()][tile.GetComponent<tileLogic>().getColumn() + 1]);
                     }
@@ -421,7 +476,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
 
     public void GameOver(int index)
     {
-        if (index == 0)
+        if (index == 0)             //Perdida
         {
             for (int row = 0; row < globalVariables.getNumOfRows(); ++row)
             {
@@ -436,8 +491,25 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
             }
             UILogic.getController().GetComponent<UILogic>().gameOver(index);
         }
-        else
+        else                        //Ganada
         {
+            victoriesData victories = saveSystem.loadVictories();
+
+            if (victories == null)
+            {
+                victories = new victoriesData();
+            }
+            victories.wonGame(globalVariables.getDifficultyLevel(), globalVariables.getNumOfRows());
+            saveSystem.saveVictories(victories.get7x7Victories(), victories.get15x15Victories(), victories.get20x20Victories());
+
+            leaderboardData leaderboard = saveSystem.loadLeaderBoard();
+
+            if (leaderboard == null)
+            {
+                leaderboard = new leaderboardData();
+            }
+            leaderboard.wonGame(new game(globalVariables.getDifficultyLevel(), globalVariables.getNumOfRows(), UILogic.getController().GetComponent<UILogic>().getTime()));
+            saveSystem.saveLeaderBoard(leaderboard.getGamesPlayed());
             UILogic.getController().GetComponent<UILogic>().gameOver(index);
         }
     }

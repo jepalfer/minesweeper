@@ -25,6 +25,12 @@ public class UILogic : MonoBehaviour
         _timerUI.text = _time.ToString();
         InvokeRepeating("timePass", 0, 1);
         _controller = gameObject;
+
+    }
+
+    public int getTime()
+    {
+        return _time;
     }
 
     public void timePass()

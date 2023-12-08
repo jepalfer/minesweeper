@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class levelSelectLogic : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _easyText;
     [SerializeField] private TextMeshProUGUI _mediumText;
     [SerializeField] private TextMeshProUGUI _hardText;
+    [SerializeField] private TextMeshProUGUI _extremeText;
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _difficultyText;
+    [SerializeField] private Button _extremeButton;
+    [SerializeField] private Image _unlockImage;
     private int _diffIndex = 0;
     private float _easyMult = 0.1f;
     private float _mediumMult = 0.2f;
-    private float _hardMult = 0.35f;
+    private float _hardMult = 0.27f;
+    private float _extremeMult = 0.35f;
 
     private void Start()
     {
@@ -24,6 +29,31 @@ public class levelSelectLogic : MonoBehaviour
         _easyText.text = "FÁCIL\n" + getNumberOfBombs(_easyMult).ToString() + " BOMBAS";
         _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
         _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
+
+        victoriesData data = saveSystem.loadVictories();
+        if (data != null)
+        {
+            bool extremeUnlock = true;
+            for (int i = 0; i < 3; i++)
+            {
+                if (data.get7x7Victories()[i] == 0)
+                {
+                    extremeUnlock = false;
+                    break;
+                }
+            }
+            if (extremeUnlock)
+            {
+                _extremeButton.enabled = true;
+                _unlockImage.enabled = false;
+                _extremeText.text = "EXTREMO\n" + getNumberOfBombs(_extremeMult).ToString() + " BOMBAS";
+            }
+            else
+            {
+                _extremeButton.enabled = false;
+                _unlockImage.enabled = true;
+            }
+        }
     }
     public void playGame()
     {
@@ -36,6 +66,7 @@ public class levelSelectLogic : MonoBehaviour
 
     public void setDefaultMap(int index)
     {
+        victoriesData data = saveSystem.loadVictories();
         switch (index)
         {
             case 0:
@@ -45,6 +76,29 @@ public class levelSelectLogic : MonoBehaviour
                 _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
                 _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
 
+                if (data != null)
+                {
+                    bool extremeUnlock = true;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (data.get7x7Victories()[i] == 0)
+                        {
+                            extremeUnlock = false;
+                            break;
+                        }
+                    }
+                    if (extremeUnlock)
+                    {
+                        _extremeButton.enabled = true;
+                        _unlockImage.enabled = false;
+                        _extremeText.text = "EXTREMO\n" + getNumberOfBombs(_extremeMult).ToString() + " BOMBAS";
+                    }
+                    else
+                    {
+                        _extremeButton.enabled = false;
+                        _unlockImage.enabled = true;
+                    }
+                }
                 if (_diffIndex == 0)
                 {
                     globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
@@ -52,6 +106,10 @@ public class levelSelectLogic : MonoBehaviour
                 else if (_diffIndex == 1)
                 {
                     globalVariables.setBombsQuantity(getNumberOfBombs(_mediumMult));
+                }
+                else if (_diffIndex == 2)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
                 }
                 else
                 {
@@ -65,6 +123,29 @@ public class levelSelectLogic : MonoBehaviour
                 _easyText.text = "FÁCIL\n" + getNumberOfBombs(_easyMult).ToString() + " BOMBAS";
                 _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
                 _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
+                if (data != null)
+                {
+                    bool extremeUnlock = true;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (data.get15x15Victories()[i] == 0)
+                        {
+                            extremeUnlock = false;
+                            break;
+                        }
+                    }
+                    if (extremeUnlock)
+                    {
+                        _extremeButton.enabled = true;
+                        _unlockImage.enabled = false;
+                        _extremeText.text = "EXTREMO\n" + getNumberOfBombs(_extremeMult).ToString() + " BOMBAS";
+                    }
+                    else
+                    {
+                        _extremeButton.enabled = false;
+                        _unlockImage.enabled = true;
+                    }
+                }
                 if (_diffIndex == 0)
                 {
                     globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
@@ -72,6 +153,10 @@ public class levelSelectLogic : MonoBehaviour
                 else if (_diffIndex == 1)
                 {
                     globalVariables.setBombsQuantity(getNumberOfBombs(_mediumMult));
+                }
+                else if (_diffIndex == 2)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
                 }
                 else
                 {
@@ -85,6 +170,29 @@ public class levelSelectLogic : MonoBehaviour
                 _easyText.text = "FÁCIL\n" + getNumberOfBombs(_easyMult).ToString() + " BOMBAS";
                 _mediumText.text = "MEDIO\n" + getNumberOfBombs(_mediumMult).ToString() + " BOMBAS";
                 _hardText.text = "DIFÍCIL\n" + getNumberOfBombs(_hardMult).ToString() + " BOMBAS";
+                if (data != null)
+                {
+                    bool extremeUnlock = true;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (data.get20x20Victories()[i] == 0)
+                        {
+                            extremeUnlock = false;
+                            break;
+                        }
+                    }
+                    if (extremeUnlock)
+                    {
+                        _extremeButton.enabled = true;
+                        _unlockImage.enabled = false;
+                        _extremeText.text = "EXTREMO\n" + getNumberOfBombs(_extremeMult).ToString() + " BOMBAS";
+                    }
+                    else
+                    {
+                        _extremeButton.enabled = false;
+                        _unlockImage.enabled = true;
+                    }
+                }
                 if (_diffIndex == 0)
                 {
                     globalVariables.setBombsQuantity(getNumberOfBombs(_easyMult));
@@ -92,6 +200,10 @@ public class levelSelectLogic : MonoBehaviour
                 else if (_diffIndex == 1)
                 {
                     globalVariables.setBombsQuantity(getNumberOfBombs(_mediumMult));
+                }
+                else if (_diffIndex == 2)
+                {
+                    globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
                 }
                 else
                 {
@@ -129,6 +241,12 @@ public class levelSelectLogic : MonoBehaviour
                 globalVariables.setGameDifficulty(difficultyLevel.HARD);
                 globalVariables.setBombsQuantity(getNumberOfBombs(_hardMult));
                 _difficultyText.text = "DIFÍCIL";
+                break;
+            case 3:
+                _diffIndex = 3;
+                globalVariables.setGameDifficulty(difficultyLevel.EXTREME);
+                globalVariables.setBombsQuantity(getNumberOfBombs(_extremeMult));
+                _difficultyText.text = "EXTREMO";
                 break;
         }
     }
