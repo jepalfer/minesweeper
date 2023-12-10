@@ -5,14 +5,16 @@ using UnityEngine;
 public class game
 {
     [SerializeField] private difficultyLevel _diff;
+    [SerializeField] private bool _isTimeTrial;
     [SerializeField] private int _mapSize;
     [SerializeField] private int _time;
 
-    public game(difficultyLevel difficulty, int size, int time)
+    public game(difficultyLevel difficulty, int size, int time, bool timeTrial)
     {
         _diff = difficulty;
         _mapSize = size;
         _time = time;
+        _isTimeTrial = timeTrial;
     }
 
     public difficultyLevel getDifficulty()
@@ -27,5 +29,10 @@ public class game
     public int getTime()
     {
         return _time;
+    }
+
+    public bool getIsTimeTrial()
+    {
+        return _isTimeTrial;
     }
 }

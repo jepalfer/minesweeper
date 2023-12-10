@@ -4,88 +4,39 @@ using UnityEngine;
 [System.Serializable]
 public class victoriesData
 {
-    [SerializeField] private int[] _7x7Victories;
-    [SerializeField] private int[] _15x15Victories;
-    [SerializeField] private int[] _20x20Victories;
+
+    [SerializeField] private List<victoryType> _victories;
 
     public victoriesData()
     {
-        _7x7Victories = new int[3];
-        _15x15Victories = new int[3];
-        _20x20Victories = new int[3];
+        _victories = new List<victoryType>();
+
+        for (int i = 0; i <= 20; ++i)
+        {
+            victoryType easy = new victoryType(i + levelSelectLogic.getMapSizeDifference(), difficultyLevel.EASY);
+            victoryType medium = new victoryType(i + levelSelectLogic.getMapSizeDifference(), difficultyLevel.MEDIUM);
+            victoryType hard = new victoryType(i + levelSelectLogic.getMapSizeDifference(), difficultyLevel.HARD);
+
+            _victories.Add(easy);
+            _victories.Add(medium);
+            _victories.Add(hard);
+        }
     }
 
-    public victoriesData(int [] victories7x7, int[] victories15x15, int[] victories20x20)
+    public victoriesData(List<victoryType> victories)
     {
-        _7x7Victories = victories7x7;
-        _15x15Victories = victories15x15;
-        _20x20Victories = victories20x20;
+        _victories = victories;
     }
 
-    public victoriesData(int mapSize, difficultyLevel difficulty)
+
+    public List<victoryType> getVictories()
     {
-        wonGame(difficulty, mapSize);
+        return _victories;
     }
 
-    public int[] get7x7Victories()
-    {
-        return _7x7Victories;
-    }
-    public int[] get15x15Victories()
-    {
-        return _15x15Victories;
-    }
-    public int[] get20x20Victories()
-    {
-        return _20x20Victories;
-    }
-
+    
     public void wonGame(difficultyLevel difficulty, int mapSize)
     {
-        if (mapSize == 7)
-        {
-            if (difficulty == difficultyLevel.EASY)
-            {
-                _7x7Victories[0] = 1;
-            }
-            else if (difficulty == difficultyLevel.MEDIUM)
-            {
-                _7x7Victories[1] = 1;
-            }
-            else
-            {
-                _7x7Victories[2] = 1;
-            }
-        }
-        else if (mapSize == 15)
-        {
-            if (difficulty == difficultyLevel.EASY)
-            {
-                _15x15Victories[0] = 1;
-            }
-            else if (difficulty == difficultyLevel.MEDIUM)
-            {
-                _15x15Victories[1] = 1;
-            }
-            else
-            {
-                _15x15Victories[2] = 1;
-            }
-        }
-        else
-        {
-            if (difficulty == difficultyLevel.EASY)
-            {
-                _20x20Victories[0] = 1;
-            }
-            else if (difficulty == difficultyLevel.MEDIUM)
-            {
-                _20x20Victories[1] = 1;
-            }
-            else
-            {
-                _20x20Victories[2] = 1;
-            }
-        }
+        _victories.Find(victory => victory.getDifficulty() == difficulty && victory.getSize() == mapSize).setIsWon(true);
     }
 }

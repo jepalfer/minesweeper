@@ -9,6 +9,8 @@ public class globalVariables : MonoBehaviour
     [SerializeField] private static difficultyLevel _difficulty;
     [SerializeField] private TextMeshProUGUI _flags;
     [SerializeField] private static globalVariables _controller;
+    [SerializeField] private static bool _timeTrial;
+    private static float _musicTimePlayed;
     private static List<List<GameObject>> _tileGrid;
     private static int _bombsQuantity;
 
@@ -22,15 +24,34 @@ public class globalVariables : MonoBehaviour
         return _controller;
     }
 
+    public static float getTimeMusicPlayed()
+    {
+        return _musicTimePlayed;
+    }
+
     public TextMeshProUGUI getFlags()
     {
         return _flags;
     }
 
+    public static bool getTimeTrial()
+    {
+        return _timeTrial;
+    }
 
     public static void setRows(int row)
     {
         _numOfRows = row;
+    }
+
+    public static void setTimeMusicPlayed(float time)
+    {
+        _musicTimePlayed = time;
+    }
+
+    public static void setTimeTrial(bool value)
+    {
+        _timeTrial = value;
     }
 
     public static void setBombsQuantity(int quantity)

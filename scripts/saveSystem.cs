@@ -4,13 +4,13 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 public static class saveSystem
 {
-    public static void saveVictories(int [] victories7x7, int[] victories15x15, int[] victories20x20)
+    public static void saveVictories(List<victoryType> victories)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = createVictoriesPath();
 
         FileStream stream = new FileStream(path, FileMode.Create);
-        victoriesData data = new victoriesData(victories7x7, victories15x15, victories20x20);
+        victoriesData data = new victoriesData(victories);
         formatter.Serialize(stream, data);
         stream.Close();
     }
@@ -23,6 +23,17 @@ public static class saveSystem
         FileStream stream = new FileStream(path, FileMode.Create);
 
         leaderboardData data = new leaderboardData(games);
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+    public static void saveVolume(float SFX, float music)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = createVolumePath();
+
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        volumeData data = new volumeData(SFX, music);
         formatter.Serialize(stream, data);
         stream.Close();
     }
@@ -52,6 +63,23 @@ public static class saveSystem
             FileStream stream = new FileStream(path, FileMode.Open);
 
             leaderboardData data = formatter.Deserialize(stream) as leaderboardData;
+            stream.Close();
+            return data;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public static volumeData loadVolume()
+    {
+        string path = createVolumePath();
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            volumeData data = formatter.Deserialize(stream) as volumeData;
             stream.Close();
             return data;
         }
@@ -99,6 +127,10 @@ public static class saveSystem
     public static string createLeaderBoardPath()
     {
         return Application.persistentDataPath + "/leaderBoard.txt";
+    }
+    public static string createVolumePath()
+    {
+        return Application.persistentDataPath + "/volume.txt";
     }
 
 }

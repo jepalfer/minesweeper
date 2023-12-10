@@ -85,6 +85,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
             if (flags > 0 || _isFlagged)      //Puedo poner bandera o quitar bandera (si estaba puesta)
             {
                 _isFlagged = !_isFlagged;
+                globalVariables.getController().gameObject.GetComponent<sfxPlayer>().playFlagSFX();
 
                 if (_isFlagged)     //Acabamos de poner una bandera
                 {
@@ -212,6 +213,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
         {
             if (tile.GetComponent<tileLogic>().getTypeOfTile() != cellEnum.BOMB)
             {
+                globalVariables.getController().gameObject.GetComponent<sfxPlayer>().playClean();
                 tile.GetComponent<Button>().interactable = false;
                 calculateBombsAroundTile(tile);
                 if (tile.GetComponent<tileLogic>().getIsFlagged())
@@ -478,6 +480,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
     {
         if (index == 0)             //Perdida
         {
+            globalVariables.getController().gameObject.GetComponent<sfxPlayer>().playExplosion();
             for (int row = 0; row < globalVariables.getNumOfRows(); ++row)
             {
                 for (int column = 0; column < globalVariables.getNumOfRows(); ++column)
@@ -500,7 +503,7 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
                 victories = new victoriesData();
             }
             victories.wonGame(globalVariables.getDifficultyLevel(), globalVariables.getNumOfRows());
-            saveSystem.saveVictories(victories.get7x7Victories(), victories.get15x15Victories(), victories.get20x20Victories());
+            saveSystem.saveVictories(victories.getVictories());
 
             leaderboardData leaderboard = saveSystem.loadLeaderBoard();
 
@@ -508,7 +511,14 @@ public class tileLogic : MonoBehaviour, IPointerClickHandler
             {
                 leaderboard = new leaderboardData();
             }
-            leaderboard.wonGame(new game(globalVariables.getDifficultyLevel(), globalVariables.getNumOfRows(), UILogic.getController().GetComponent<UILogic>().getTime()));
+            if (!globalVariables.getTimeTrial())
+            {
+                leaderboard.wonGame(new game(globalVariables.getDifficultyLevel(), globalVariables.getNumOfRows(), UILogic.getController().GetComponent<UILogic>().getTime(), false));
+            }
+            else
+            {
+                leaderboard.wonGame(new game(globalVariables.getDifficultyLevel(), globalVariables.getNumOfRows(), UILogic.getController().GetComponent<UILogic>().getTimeTrialTime(), true));
+            }
             saveSystem.saveLeaderBoard(leaderboard.getGamesPlayed());
             UILogic.getController().GetComponent<UILogic>().gameOver(index);
         }
