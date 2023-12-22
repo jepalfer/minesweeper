@@ -22,17 +22,17 @@ public class levelSelectLogic : MonoBehaviour
     private int _diffIndex = 0;
     private float _easyMult = 0.1f;
     private float _mediumMult = 0.2f;
-    private float _hardMult = 0.27f;
-    private float _extremeMult = 0.35f;
+    private float _hardMult = 0.225f;
+    private float _extremeMult = 0.3f;
     private const int _MAPSIZEDIFFERENCE = 5;
 
     private void Start()
     {
-        volumeData data = saveSystem.loadVolume();
+        volumeData volume = saveSystem.loadVolume();
 
-        if (data != null)
+        if (volume != null)
         {
-            _musicSrc.volume = data.getMusicAudio();
+            _musicSrc.volume = volume.getMusicAudio();
         }
         _musicSrc.time = globalVariables.getTimeMusicPlayed();
         globalVariables.setTimeTrial(false);
